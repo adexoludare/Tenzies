@@ -8,7 +8,8 @@
 main{
   background: #F5F5F5;
   max-width: 350px;
-  /* padding: 33.28px 34.56px 33.92px 34.56px; */
+  margin: 8px auto;
+  color: #221768;
   padding: 2em 2.3em;
   border-radius: 10px;
   font-family: Karla, sans-serif;
@@ -22,6 +23,7 @@ main{
   font-size: 1.5rem;
   font-weight: 700;
   padding:  8px;
+  color: #221768;
   margin: 0.2em auto;
   box-shadow: 0px 2px 2px 0px #00000026;
   box-sizing: border-box;
