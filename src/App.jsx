@@ -5,6 +5,31 @@ import {nanoid} from "nanoid"
 import Confetti from 'react-confetti'
 
 function App() {
+const [dice, setDice] = React.useState(allNewDice())
+const [tenzies, setTenzies] =React.useState(false)
+const [backgroundAudio, setBackgroundAudio] = React.useState(null);
+
+   // Preload sounds
+   const clickSound = new Audio("/sounds/click2.mp3");
+   const rollSound = new Audio("/sounds/roll.mp3");
+   const winSound = new Audio("/sounds/win.mp3");
+   const bgMusic = new Audio("/sounds/background.mp3");
+   
+
+   // background music 
+ React.useEffect(() => {
+    if (!tenzies) {
+      bgMusic.loop = true;
+      bgMusic.volume = 0.5;
+      bgMusic.play().catch((err) => console.log("Background music error:", err));
+      setBackgroundAudio(bgMusic);
+    }
+
+    return () => {
+      if (backgroundAudio) backgroundAudio.pause();
+    };
+  }, [tenzies]);
+   
   
   function generateNewDice(){
     return {value:Math.ceil(Math.random()*6),
@@ -19,11 +44,14 @@ function allNewDice(){
       generateNewDice()
     )
   }
+  
   return newDice
 }
 
-const [dice, setDice] = React.useState(allNewDice())
-const [tenzies, setTenzies] =React.useState(false)
+function jubilate(){
+  if (backgroundAudio) backgroundAudio.pause();
+      winSound.play();
+}
 
 React.useEffect(()=>{
   const allHeld = dice.every(die => die.isHeld)
@@ -31,11 +59,13 @@ React.useEffect(()=>{
   const allSameValue = dice.every(die =>die.value === firstValue)
   if (allHeld && allSameValue) {
     setTenzies(true)
+    jubilate()
   }
  
 },[dice])
 
 const rollDice = ()=>{
+  rollSound.play();
  return setDice((prevDice)=>{
     return prevDice.map((die)=>{
     return die.isHeld ?
@@ -44,10 +74,12 @@ const rollDice = ()=>{
 }
 
 const resetGame = ()=>{
+  winSound.pause();
   setTenzies(false)
   setDice(allNewDice)
 }
 const holdDice =(id)=>{
+  clickSound.play();
   setDice((prevDice)=>{
     return prevDice.map((die)=>{
     return die.id===id ?

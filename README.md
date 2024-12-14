@@ -44,12 +44,13 @@ function Die(props) {
 ```
 
 ### State
-two state was declare in the project one to tract the state of each die and the other to track when the game is won
+Three state was declare in the project one to tract the state of each die and the other to track when the game is won while the last state is for background music
 ```jsx
-const [dice, setDice] = React.useState(allNewDice())
-const [tenzies, setTenzies] =React.useState(false)
+const [dice, setDice] = React.useState(allNewDice());
+const [tenzies, setTenzies] =React.useState(false);
+const [backgroundAudio, setBackgroundAudio] = React.useState(null);
 ```
-the page load with the call to allNewDice function which initialized dice state with object return from allNewDice function
+The page load with the call to allNewDice function which initialized dice state with object return from allNewDice function
 
 when the dice is roll, setDice update the value of isHeld properties of the held dice
 ```jsx
@@ -65,8 +66,10 @@ when all dices where held and have thesame value
 ```jsx
  if (allHeld && allSameValue) {
     setTenzies(true)
+    jubilate()
   }
   ```
+  jubilate function is called which play win audio 
   ### useEffect
 ```jsx
 React.useEffect(()=>{
@@ -75,6 +78,7 @@ React.useEffect(()=>{
   const allSameValue = dice.every(die =>die.value === firstValue)
   if (allHeld && allSameValue) {
     setTenzies(true)
+    jubilate()
   }
  
 },[dice])
